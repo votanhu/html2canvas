@@ -35,6 +35,7 @@ module.exports = function(grunt) {
         connect: {
             server: {
                 options: {
+                    hostname: 'localhost',
                     port: 8080,
                     base: __dirname,
                     keepalive: true
@@ -42,6 +43,7 @@ module.exports = function(grunt) {
             },
             cors: {
                 options: {
+                    hostname: 'localhost',
                     port: 8081,
                     base: __dirname,
                     keepalive: false,
@@ -62,6 +64,7 @@ module.exports = function(grunt) {
             },
             ci: {
                 options: {
+                    hostname: 'localhost',
                     port: 8080,
                     base: __dirname,
                     keepalive: false
