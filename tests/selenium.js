@@ -126,6 +126,7 @@
         var browser = wd.remote("localhost", 4445, process.env.SAUCE_USERNAME, process.env.SAUCE_ACCESS_KEY);
         var browserStream = new Bacon.Bus();
         if (process.env.TRAVIS_JOB_NUMBER) {
+            console.log("Sauce labs tunnel identifier:", process.env.TRAVIS_JOB_NUMBER);
             test.capabilities["tunnel-identifier"] = process.env.TRAVIS_JOB_NUMBER;
             test.capabilities["name"] = process.env.TRAVIS_COMMIT.substring(0, 10);
             test.capabilities["build"] = process.env.TRAVIS_BUILD_NUMBER;
