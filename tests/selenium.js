@@ -56,7 +56,10 @@
             var arraybuffer = base64_arraybuffer.decode(base64);
             console.log("arraybuffer");
             console.log(arraybuffer.byteLength);
-            (new PNG(arraybuffer)).decode(function(a) {
+            var png = new PNG(arraybuffer);
+            console.log("png created");
+            console.log(png.width, png.height);
+            png.decode(function(a) {
                 console.log("png done");
                 callback(a);
             });
