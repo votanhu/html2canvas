@@ -54,7 +54,12 @@
         return Bacon.fromCallback(function(callback) {
             console.log("base64", base64.substring(0, 20));
             var arraybuffer = base64_arraybuffer.decode(base64);
-            (new PNG(arraybuffer)).decode(callback);
+            console.log("arraybuffer");
+            console.log(arraybuffer.byteLength);
+            (new PNG(arraybuffer)).decode(function(a) {
+                console.log("png done");
+                callback(a);
+            });
         });
     }
 
@@ -136,16 +141,6 @@
         } else {
             test.capabilities["name"] = "Manual run";
         }
-
-        var request = require('request');
-        request('http://localhost:8080', function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                console.log(body); // Print the google web page.
-            } else {
-                console.log(error);
-            }
-        });
-        console.log(test.capabilities);
 
         var resultStream = Bacon.fromNodeCallback(browser, "init", test.capabilities)
             .flatMap(Bacon.fromNodeCallback(browser, "setImplicitWaitTimeout", 15000)
