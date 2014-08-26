@@ -127,13 +127,21 @@
         var browserStream = new Bacon.Bus();
         if (process.env.TRAVIS_JOB_NUMBER) {
             console.log("Sauce labs tunnel identifier:", process.env.TRAVIS_JOB_NUMBER);
-            //test.capabilities["tunnel-identifier"] = process.env.TRAVIS_JOB_NUMBER;
+            test.capabilities["tunnel-identifier"] = process.env.TRAVIS_JOB_NUMBER;
             test.capabilities["name"] = process.env.TRAVIS_COMMIT.substring(0, 10);
             test.capabilities["build"] = process.env.TRAVIS_BUILD_NUMBER;
         } else {
             test.capabilities["name"] = "Manual run";
         }
 
+        var request = require('request');
+        request('http://localhost:8080', function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log(body); // Print the google web page.
+            } else {
+                console.log(error);
+            }
+        });
         console.log(test.capabilities);
 
         var resultStream = Bacon.fromNodeCallback(browser, "init", test.capabilities)

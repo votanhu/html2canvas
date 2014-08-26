@@ -36,14 +36,14 @@ module.exports = function(grunt) {
             server: {
                 options: {
                     port: 8080,
-                    base: './',
+                    base: __dirname,
                     keepalive: true
                 }
             },
             cors: {
                 options: {
                     port: 8081,
-                    base: './',
+                    base: __dirname,
                     keepalive: false,
                     middleware: function(connect, options, middlwares) {
                         return [
@@ -63,7 +63,7 @@ module.exports = function(grunt) {
             ci: {
                 options: {
                     port: 8080,
-                    base: './',
+                    base: __dirname,
                     keepalive: false
                 }
             }
