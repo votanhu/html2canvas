@@ -52,18 +52,21 @@
 
     function getPixelArray(base64) {
         return Bacon.fromCallback(function(callback) {
+            console.log("base64", base64.substring(0, 20));
             var arraybuffer = base64_arraybuffer.decode(base64);
             (new PNG(arraybuffer)).decode(callback);
         });
     }
 
     function calculateDifference(h2cPixels, screenPixels) {
+        console.log("diff");
         var len = h2cPixels.length, index = 0, diff = 0;
         for (; index < len; index++) {
             if (screenPixels[index] - h2cPixels[index] !== 0) {
                 diff++;
             }
         }
+        console.log('diff done');
         return (100 - (Math.round((diff/h2cPixels.length) * 10000) / 100));
     }
 
@@ -167,9 +170,7 @@
                             return Bacon.combineTemplate({
                                 browser: name,
                                 testCase: testCase,
-                                accuracy: Bacon.constant(result.dataUrl).flatMap(getPixelArray).combine(Bacon.constant(result.screenshot).flatMap(getPixelArray), calculateDifference),
-                                dataUrl: result.dataUrl,
-                                screenshot: result.screenshot
+                                accuracy: Bacon.constant(result.dataUrl).flatMap(getPixelArray).combine(Bacon.constant(result.screenshot).flatMap(getPixelArray), calculateDifference)
                             });
                         });
                 });
