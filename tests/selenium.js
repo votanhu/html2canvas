@@ -153,13 +153,17 @@
                     var name = options[1];
                     console.log(colors.green, "STARTING", name, testCase, colors.clear);
                     return Bacon.fromNodeCallback(browser, "get", "http://localhost:" + port + "/" + testCase + "?selenium")
-                        .flatMap(Bacon.combineTemplate({
-                            dataUrl: Bacon.fromNodeCallback(browser, "elementByCssSelector", ".html2canvas").flatMap(function(canvas) {
-                                return Bacon.fromNodeCallback(browser, "execute", "return arguments[0].toDataURL('image/png').substring(22)", [canvas]);
-                            }),
-                            screenshot: Bacon.fromNodeCallback(browser, "takeScreenshot")
-                        }))
+                        .flatMap(function() {
+                            console.log('get');
+                            return Bacon.combineTemplate({
+                                dataUrl: Bacon.fromNodeCallback(browser, "elementByCssSelector", ".html2canvas").flatMap(function(canvas) {
+                                    return Bacon.fromNodeCallback(browser, "execute", "return arguments[0].toDataURL('image/png').substring(22)", [canvas]);
+                                }),
+                                screenshot: Bacon.fromNodeCallback(browser, "takeScreenshot")
+                            });
+                        })
                         .flatMap(function(result) {
+                            console.log('screenshots');
                             return Bacon.combineTemplate({
                                 browser: name,
                                 testCase: testCase,
