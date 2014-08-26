@@ -127,12 +127,14 @@
         var browserStream = new Bacon.Bus();
         if (process.env.TRAVIS_JOB_NUMBER) {
             console.log("Sauce labs tunnel identifier:", process.env.TRAVIS_JOB_NUMBER);
-            test.capabilities["tunnel-identifier"] = process.env.TRAVIS_JOB_NUMBER;
+            //test.capabilities["tunnel-identifier"] = process.env.TRAVIS_JOB_NUMBER;
             test.capabilities["name"] = process.env.TRAVIS_COMMIT.substring(0, 10);
             test.capabilities["build"] = process.env.TRAVIS_BUILD_NUMBER;
         } else {
             test.capabilities["name"] = "Manual run";
         }
+
+        console.log(test.capabilities);
 
         var resultStream = Bacon.fromNodeCallback(browser, "init", test.capabilities)
             .flatMap(Bacon.fromNodeCallback(browser, "setImplicitWaitTimeout", 15000)
